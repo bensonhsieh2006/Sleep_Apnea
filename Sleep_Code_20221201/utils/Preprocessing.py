@@ -71,7 +71,7 @@ class Preprocessing(Basic_Preprocessing):
 
 
     def __init__(self, year, month, csv_path, rw_path, Date_ID_list = None, fulrwpath_list = None):
-        super.__init__(year, month, csv_path, rw_path, Date_ID_list, fulrwpath_list)
+        super().__init__(year, month, csv_path, rw_path, Date_ID_list, fulrwpath_list)
 
     
     def append_directory(self, apd_path):
@@ -240,7 +240,7 @@ class Data_Augmentation(Basic_Preprocessing):
 
 
     def __init__(self, year, month, csv_path, rw_path, Date_ID_list = None, fulrwpath_list = None):
-        super.__init__(year, month, csv_path, rw_path, Date_ID_list, fulrwpath_list)
+        super().__init__(year, month, csv_path, rw_path, Date_ID_list, fulrwpath_list)
 
 
 

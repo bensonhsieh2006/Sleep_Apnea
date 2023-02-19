@@ -78,7 +78,7 @@ if num <= 4:
             preprocessing.append_directory(f'{proj_path}/Sleep_Code_Data/All_{spec_dict[spec_type]}_{type_dict[imp_type]}')
 
         else:
-            preprocessing.append_directory(f'{proj_path}/Sleep_Code_Data/{imp_type}')
+            preprocessing.append_directory(f'{proj_path}/Sleep_Code_Data/{type_dict[imp_type]}')
 
     elif num == 1:
         preprocessing.asf_to_wav(f'{proj_path}/Sleep_Data/Wav_30_68')
