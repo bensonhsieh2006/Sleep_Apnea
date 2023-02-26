@@ -244,17 +244,17 @@ class Data_Augmentation(Basic_Preprocessing):
 
 
 
-    def type_select(i_num):
+    def type_select(self, i_num):
     
-        aug_dict = {0:'Add_Gaussian_Noise',1:'Add_Background_Noise',2:'Add_Short_Noises',
-                    3:'Band_Pass_Filter'  ,4:'High_Pass_Filter',    5:'Low_Pass_Filter',
-                    6:'Frequency_Mask',    7:'Time_Mask',  8:'Reverse',  9:'Shift'}
+        aug_dict = {3:'Add_Gaussian_Noise',4:'Add_Background_Noise',5:'Add_Short_Noises',
+                    6:'Band_Pass_Filter'  ,7:'High_Pass_Filter',    8:'Low_Pass_Filter',
+                    9:'Frequency_Mask',    10:'Time_Mask',  11:'Reverse',  12:'Shift'}
     
         return aug_dict[i_num]
 
 
 
-    def _get_aug(ori_path, new_path, bg_path, noise_path, i_num):
+    def _get_aug(self, ori_path, new_path, bg_path, noise_path, i_num):
 
         if i_num == 0:
             implement_aug.Add_Gaussian_Noise(ori_path, new_path)
@@ -305,7 +305,7 @@ class Data_Augmentation(Basic_Preprocessing):
 
     def imp_aug(self, ori_path, new_path, i_num, bg_path, noise_path):
 
-        self.require_warning(self.Date_ID_list)
+        self.require_warning(self.Date_ID_list, self.fulrwpath_list)
 
         for x in self.Date_ID_list:
 
@@ -318,7 +318,7 @@ class Data_Augmentation(Basic_Preprocessing):
                 # Check whether file is in wav or not
                 if files.endswith("combined.wav"):
 
-                    if self.check_file('_' + self.type_select(i_num).lower() + '.wav', dest_path):
+                    if self.check_file(dest_path, '_' + self.type_select(i_num).lower() + '.wav'):
                         source = f'{source_path}/{files}'
                         destination = f'{dest_path}/{files}'
                         print(source)

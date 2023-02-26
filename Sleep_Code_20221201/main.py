@@ -72,19 +72,16 @@ if num <= 4:
         assert 0<=imp_type<=12, "Folder doesn't exist."
 
         if imp_type >= 2:
-            spec_dict = {0: "Mel", 1: "MFCC"}
-            spec_type = int(input("Select Spectrogram Type (0: Mel, 1: MFCC)"))
-            assert 0<=spec_type<=1, "Spectrogram doesn't exist."
-            preprocessing.append_directory(f'{proj_path}/Sleep_Code_Data/All_{spec_dict[spec_type]}_{type_dict[imp_type]}')
+            preprocessing.append_directory(f'{proj_path}/Sleep_Code_Data/Aug/Aug_{type_dict[imp_type]}')
 
         else:
             preprocessing.append_directory(f'{proj_path}/Sleep_Code_Data/{type_dict[imp_type]}')
 
     elif num == 1:
-        preprocessing.asf_to_wav(f'{proj_path}/Sleep_Data/Wav_30_68')
+        preprocessing.asf_to_wav(f'{proj_path}/Sleep_Code_Data/Wav_30_68')
 
     elif num == 2:
-        preprocessing.wav_combine(f'{proj_path}/Sleep_Data/Wav_30_68', f'{proj_path}/Sleep_Data/Wav_Combine')
+        preprocessing.wav_combine(f'{proj_path}/Sleep_Code_Data/Wav_30_68', f'{proj_path}/Sleep_Code_Data/Wav_Combine')
 
     elif num == 3:
 
@@ -92,10 +89,10 @@ if num <= 4:
         assert 2<=imp_type<=12, "Selection doesn't exist."
 
         if imp_type == 2:
-            preprocessing.wav_to_mel(f'{proj_path}/Sleep_Data/Wav_Combine', f'{proj_path}/Sleep_Data/All_Mel_{type_dict[imp_type]}')
+            preprocessing.wav_to_mel(f'{proj_path}/Sleep_Code_Data/Wav_Combine', f'{proj_path}/Sleep_Code_Data/Spectrograms/All_Mel_{type_dict[imp_type]}')
         
         else:
-            preprocessing.wav_to_mel(f'{proj_path}/Sleep_Data/Aug/Aug_{type_dict[imp_type]}', f'{proj_path}/Sleep_Data/All_Mel_{type_dict[imp_type]}')
+            preprocessing.wav_to_mel(f'{proj_path}/Sleep_Code_Data/Aug/Aug_{type_dict[imp_type]}', f'{proj_path}/Sleep_Code_Data/Spectrograms/All_Mel_{type_dict[imp_type]}')
 
     elif num == 4:
 
@@ -103,10 +100,10 @@ if num <= 4:
         assert 2<=imp_type<=12, "Selection doesn't exist."
 
         if imp_type == 2:
-            preprocessing.wav_to_mel(f'{proj_path}/Sleep_Data/Wav_Combine', f'{proj_path}/Sleep_Data/All_MFCC_{type_dict[imp_type]}')
+            preprocessing.wav_to_mfcc(f'{proj_path}/Sleep_Code_Data/Wav_Combine', f'{proj_path}/Sleep_Code_Data/Spectrograms/All_MFCC_{type_dict[imp_type]}')
         
         else:
-            preprocessing.wav_to_mel(f'{proj_path}/Sleep_Data/Aug/Aug_{type_dict[imp_type]}', f'{proj_path}/Sleep_Data/All_MFCC{type_dict[imp_type]}')
+            preprocessing.wav_to_mfcc(f'{proj_path}/Sleep_Code_Data/Aug/Aug_{type_dict[imp_type]}', f'{proj_path}/Sleep_Code_Data/Spectrograms/All_MFCC_{type_dict[imp_type]}')
 
 else:
 
@@ -126,8 +123,8 @@ else:
     imp_num = int(input(folder_name))
     assert 3<=imp_num<=12, "Selection doesn't exist."
 
-    add_aug.imp_aug(f'{proj_path}/Sleep_Data/Wav_Combine',
-                    f'{proj_path}/Sleep_Data/Aug/Aug_{type_dict[imp_num]}',
+    add_aug.imp_aug(f'{proj_path}/Sleep_Code_Data/Wav_Combine',
+                    f'{proj_path}/Sleep_Code_Data/Aug/Aug_{type_dict[imp_num]}',
                     imp_num,
                     bg_path,
                     noise_path)
