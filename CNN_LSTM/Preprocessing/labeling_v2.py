@@ -129,8 +129,16 @@ def multi_class_threshold(start_rec, event_list, label_list, sample, threshold):
     return [[int(y > threshold) for y in x] for x in label_list]
 
 
+def count_binary_class(labels_list):
+    class_count = [0]*2
+    for x in labels_list:
+        class_count[x]+=1
+    
+    return class_count
 
-def count_class(labels_list):
+
+
+def count_multi_class(labels_list):
     class_count = [0]*len(labels_list[0])
     for x in labels_list:
         for num in range(len(x)):
@@ -184,14 +192,17 @@ def main(ids, start_list, csv_name, th, seg_time):
 
 
 if __name__ == "__main__":
-
-    seg_time = 25
+    
+    data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Code_with_Data/CNN_LSTM/Model_Training/Data'
+    seg_time = 30
     th = 0.1
     ids = ["00000711-100839", "00000781-100816", "00001096-100779", "00000782-100816"]
     start_list = ["00:22:23", "23:57:21", "00:05:58", "23:56:56"]
-    csv_name = f'label_{seg_time}s_{str(int(100*th))}.csv'
+    csv_name = f'{data_folder}/label_{seg_time}s_{str(int(100*th))}.csv'
 
-    main(ids, start_list, csv_name, th, seg_time)
-    #print(count_class(pd.read_csv(csv_name)['label']))
+
+    #main(ids, start_list, csv_name, th, seg_time)
+    print(count_binary_class(pd.read_csv(csv_name)['label']))
+
 
 

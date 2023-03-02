@@ -36,8 +36,8 @@ type_dict = {
     8 : "Low",
     9 : "Freq",
     10 : "Time",
-    11 : "Reverse",
-    12 : "Shift"
+    11 : "Rev",
+    12 : "Sft"
 }
 
 num = int(input("""
