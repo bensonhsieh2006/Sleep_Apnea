@@ -168,7 +168,7 @@ def main(ids, start_list, csv_name, th, seg_time, type):
     for sample in range(len(ids)):
 
         start_rec = start_list[sample]
-        event_list = pd.read_csv(f'Event_lists/{ids[sample]}_event_list.csv')
+        event_list = pd.read_csv(f'./Event_lists/{ids[sample]}_event_list.csv')
         # label_list = threshold(start_rec, event_list, label_list, sample, threshold = 0.1)
 
 
@@ -204,15 +204,15 @@ def main(ids, start_list, csv_name, th, seg_time, type):
 
 if __name__ == "__main__":
     
-    # data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Code_with_Data/CNN_LSTM/Model_Training/Data'
-    data_folder = r'C:\Users\user\Documents\Benson\資訊\程式\Apnea_Data'
+    data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Code_with_Data/CNN_LSTM/Model_Training/Data'
+    # data_folder = r'C:\Users\user\Documents\Benson\資訊\程式\Apnea_Data'
     os.chdir(data_folder)
 
-    type = 'binary'
+    type = 'multi'
     seg_time = 30
     th = 0.1
-    ids = ["00000711-100839", "00000781-100816", "00001096-100779", "00000782-100816"]
-    start_list = ["00:22:23", "23:57:21", "00:05:58", "23:56:56"]
+    ids = ["00000711-100839", "00000781-100816", "00001096-100779", "00000712-100839", "00000782-100816"]
+    start_list = ["00:22:23", "23:57:21", "00:05:58", "23:54:50", "23:56:56"]
     csv_name = f'{data_folder}/label_{seg_time}s_{str(int(100*th))}_{type}.csv'
 
 
