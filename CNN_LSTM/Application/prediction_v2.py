@@ -8,16 +8,14 @@ from memory_profiler import profile
 import librosa
 from librosa import display
 import tkinter as tk
+from PIL import ImageTk, Image
+import time
 
 class App():
 
     def __init__(self, q):
 
-        self.text = 'Waiting For Results...'
         self.q = q
-        self.font_1 = 'Arial 26'
-        self.font_2 = 'Arial 20'
-        self.font_3 = 'Arial 16'
 
         self.win = tk.Tk()
         self.win.geometry('600x500')
@@ -27,26 +25,139 @@ class App():
         self.frame = tk.Frame(self.win)
         self.frame.pack(side="top", expand=True, fill="both")
         
+        self.initialize()
         self.running()
         self.win.after(1000, self.update)
         self.win.mainloop()
 
 
     def update(self):
+        
         if not self.q.empty():
-            self.text = self.q.get_nowait()
-        self.lb['text'] = self.text
+
+            self.label_list.append(self.q.get_nowait()) 
+            print(self.label_list[-1])
+
+            if len(self.label_list)>3:
+                self.label_list.pop(0)
+
+
+            if self.label_list[-1][1] == 0:
+                self.cur_result['text'] = None
+                self.cur_result['image'] = self.green_img
+            
+            else:
+                self.cur_result['text'] = None
+                self.cur_result['image'] = self.red_img
+
+
+            if len(self.label_list) > 0:
+                # print(self.label_list[-1][0])
+
+                if self.label_list[-1][1] == 0:
+                    self.mel21['image'] = self.green_img
+                else:
+                    self.mel21['image'] = self.red_img
+                    
+                self.mel1_lk = Image.open(f'.\Mel\segment{self.label_list[-1][0]}.png')
+                self.mel1_lk = self.mel1_lk.resize((130,130), Image.ANTIALIAS)
+                self.mel1 = ImageTk.PhotoImage(self.mel1_lk)
+                self.mel31['image'] = self.mel1
+
+            if len(self.label_list) > 1:
+                # print(self.label_list[-2][0])
+
+                if self.label_list[-2][1] == 0:
+                    self.mel22['image'] = self.green_img
+                else:
+                    self.mel22['image'] = self.red_img
+
+                self.mel2_lk = Image.open(f'.\Mel\segment{self.label_list[-2][0]}.png')
+                self.mel2_lk = self.mel2_lk.resize((130,130), Image.ANTIALIAS)
+                self.mel2 = ImageTk.PhotoImage(self.mel2_lk)
+                self.mel32['image'] = self.mel2
+
+            if len(self.label_list) > 2:
+                # print(self.label_list[-3][0])
+
+                if self.label_list[-3][1] == 0:
+                    self.mel23['image'] = self.green_img
+                else:
+                    self.mel23['image'] = self.red_img
+
+                self.mel3_lk = Image.open(f'.\Mel\segment{self.label_list[-3][0]}.png')
+                self.mel3_lk = self.mel3_lk.resize((130,130), Image.ANTIALIAS)
+                self.mel3 = ImageTk.PhotoImage(self.mel3_lk)
+                self.mel33['image'] = self.mel3
+
         self.win.after(1000, self.update)
 
     def running(self):
+
         self.title = tk.Label(self.frame, text='Sleep Apnea Continuous Detection', font=self.font_1, fg='blue')
         self.title.place(x=35, y=50)
 
-        self.word = tk.Label(self.frame, text='Predicting... [[P(0), P(1)]]', font=self.font_2, fg='blue')
-        self.word.place(x=35, y=140)
+        self.word = tk.Label(self.frame, text='Predicting... ', font=self.font_2, fg='blue')
+        self.word.place(x=35, y=120)
 
-        self.lb = tk.Label(self.frame, text=self.text, font=self.font_3)
-        self.lb.place(x=35, y=180)
+        self.des1 = tk.Label(self.frame, text='(Negative:          Positive:     )', font=self.font_3)
+        self.des1.place(x=200, y=125)
+
+        self.green_icon = tk.Label(self.frame, image=self.green_img)
+        self.green_icon.place(x=300, y=125)
+
+        self.red_icon = tk.Label(self.frame, image=self.red_img)
+        self.red_icon.place(x=450, y=125)
+
+        self.des2 = tk.Label(self.frame, text='Current Result: ', font=self.font_3, fg='black')
+        self.des2.place(x=35, y=225)
+
+        self.cur_result = tk.Label(self.frame, text='Waiting...', font=self.font_3, fg='black')
+        self.cur_result.place(x=200, y=225)
+
+        self.mel11 = tk.Label(self.frame, text='Past 30s', font=self.font_3, fg='black', borderwidth=2, relief='solid')
+        self.mel11.place(x=30, y=275, width=179, height=29)
+
+        self.mel12 = tk.Label(self.frame, text='Past 60s', font=self.font_3, fg='black', borderwidth=2, relief='solid')
+        self.mel12.place(x=210, y=275, width=179, height=29)
+
+        self.mel13 = tk.Label(self.frame, text='Past 90s', font=self.font_3, fg='black', borderwidth=2, relief='solid')
+        self.mel13.place(x=390, y=275, width=179, height=29)
+
+        self.mel21 = tk.Label(self.frame, fg='black', borderwidth=2, relief='solid')
+        self.mel21.place(x=30, y=305, width=179, height=29)
+
+        self.mel22 = tk.Label(self.frame, fg='black', borderwidth=2, relief='solid')
+        self.mel22.place(x=210, y=305, width=179, height=29)
+
+        self.mel23 = tk.Label(self.frame, fg='black', borderwidth=2, relief='solid')
+        self.mel23.place(x=390, y=305, width=179, height=29)
+
+        self.mel31 = tk.Label(self.frame, fg='black', borderwidth=2, relief='solid')
+        self.mel31.place(x=30, y=335, width=179, height=145)
+
+        self.mel32 = tk.Label(self.frame, fg='black', borderwidth=2, relief='solid')
+        self.mel32.place(x=210, y=335, width=179, height=145)
+
+        self.mel33 = tk.Label(self.frame, fg='black', borderwidth=2, relief='solid')
+        self.mel33.place(x=390, y=335, width=179, height=145)
+
+    def initialize(self):
+
+        self.label_list = []
+
+        self.font_1 = 'Arial 26'
+        self.font_2 = 'Arial 20'
+        self.font_3 = 'Arial 16'
+
+        self.red_img_lk = Image.open("red_light.png")
+        self.red_img_lk = self.red_img_lk.resize((20,20), Image.ANTIALIAS)
+        self.red_img = ImageTk.PhotoImage(self.red_img_lk)
+
+        self.green_img_lk = Image.open("green_light.png")
+        self.green_img_lk = self.green_img_lk.resize((20,20), Image.ANTIALIAS)
+        self.green_img = ImageTk.PhotoImage(self.green_img_lk)
+
 
 def wav_to_mel(file, input_path, output_path):
 
@@ -121,7 +232,7 @@ def apnea_predict(count, mel_path, model_path, q):
     pred = model.predict(np.array([X_pred]))
     pred = np.around(pred, decimals=3)
     print(f'From {count-10} to {count-1} segment prediction: {pred}')
-    q.put(f'From {count-10} to {count-1} segment prediction: {pred}', block=False)
+    q.put([count-1, pred.argmax(-1)], block=False)
     return
 
 
@@ -151,8 +262,8 @@ def run_app(q):
 
 if __name__ == "__main__":
 
-    seg_path = r'D:\Programs\Python\Project\Sleep_Apnea_App\LSTM\Segments'
-    mel_path = r'D:\Programs\Python\Project\Sleep_Apnea_App\LSTM\Mel'
+    seg_path = r'C:\Users\user\Desktop\Application\Segments'
+    mel_path = r'C:\Users\user\Desktop\Application\Mel'
     model_path = r'D:\Programs\Python\Project\Sleep_Apnea_App\LSTM\Models\lstm.h5'
     q = Queue()
 
@@ -161,3 +272,4 @@ if __name__ == "__main__":
 
     thread2 = Process(target=run_app, args=(q, ))
     thread2.start()
+        
