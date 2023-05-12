@@ -256,43 +256,43 @@ class Data_Augmentation(Basic_Preprocessing):
 
     def _get_aug(self, ori_path, new_path, bg_path, noise_path, i_num):
 
-        if i_num == 0:
+        if i_num == 3:
             implement_aug.Add_Gaussian_Noise(ori_path, new_path)
 
 
-        elif i_num == 1:
+        elif i_num == 4:
             implement_aug.Add_Background_Noise(ori_path, new_path, bg_path)
 
 
-        elif i_num == 2:
+        elif i_num == 5:
             implement_aug.Add_Short_Noises(ori_path, new_path, noise_path)
 
 
-        elif i_num == 3:
+        elif i_num == 6:
             implement_aug.Band_Pass_Filter(ori_path, new_path)
 
 
-        elif i_num == 4:
+        elif i_num == 7:
             implement_aug.High_Pass_Filter(ori_path, new_path)
 
 
-        elif i_num == 5:
+        elif i_num == 8:
             implement_aug.Low_Pass_Filter(ori_path, new_path)
 
 
-        elif i_num == 6:
+        elif i_num == 9:
             implement_aug.Frequency_Mask(ori_path, new_path)
 
 
-        elif i_num == 7:
+        elif i_num == 10:
             implement_aug.Time_Mask(ori_path, new_path)
 
 
-        elif i_num == 8:
+        elif i_num == 11:
             implement_aug.Reverse(ori_path, new_path)
 
 
-        elif i_num == 9:
+        elif i_num == 12:
             implement_aug.Shift(ori_path, new_path)
 
         else:
@@ -306,6 +306,7 @@ class Data_Augmentation(Basic_Preprocessing):
     def imp_aug(self, ori_path, new_path, i_num, bg_path, noise_path):
 
         self.require_warning(self.Date_ID_list, self.fulrwpath_list)
+        print(f'Augmentation: {self.type_select(i_num)}')
 
         for x in self.Date_ID_list:
 

@@ -8,13 +8,13 @@ import os
 from utils import file, audio_processing
 
 
-seg_dur = 25
+seg_dur = 30
 year = 2021
 month = 5
 num_list = [x for x in range(30,69)]
 csv_path = r'/NAS/Benson/Sleep_Apnea/Sleep_Code_Data/Temporary_Files' 
 wav_path = r'/NAS/Benson/Sleep_Apnea/Sleep_Code_Data/Wav_30_68'
-seg_path = f'/NAS/Benson/Sleep_Apnea/Deep_Learning/LSTM/Segments_{seg_dur}s'
+seg_path = f'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Github/Sleep_Apnea/CNN_LSTM/Model_Training/Data/Segments_{seg_dur}s'
 
 
 
@@ -26,7 +26,7 @@ DateID_list = [x for x in pd.read_csv(name)['0']]
 Divides selected patient's audio(30~68th .asf file) 
 to 30s audio per .wav file and converts them to mel spectrogram.)
 """
-for x in [DateID_list[4]]:
+for x in [DateID_list[5]]:
 
     wave_path = file.full_path(wav_path, year, month, x)[0]
     print(wave_path)

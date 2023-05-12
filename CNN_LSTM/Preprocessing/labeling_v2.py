@@ -1,5 +1,5 @@
 import pandas as pd
-
+import os
 
 
 
@@ -55,7 +55,7 @@ def cal_duration(t1, t2):
 
 #calculate time proportion for each epoch of each event(mixed up)
 def proportion(start_rec, event_list, label_list, sample, seg_time):
-
+    # print()
     total_epoch = 11700//seg_time
 
     for time, duration in zip(event_list['Time'], event_list['Duration']):
@@ -63,7 +63,7 @@ def proportion(start_rec, event_list, label_list, sample, seg_time):
         start_time = twenty_four_hr_clock(time)
         start_epoch = cal_duration(start_rec, start_time) / seg_time
         end_epoch = cal_duration(start_rec, time_add(start_time, duration)) / seg_time
-
+        # print(start_epoch)
         if int(end_epoch) == int(start_epoch) and end_epoch <= total_epoch-1:
             label_list[int(end_epoch) + sample * total_epoch] += end_epoch - start_epoch
 
@@ -93,7 +93,6 @@ def multi_class_proportion(start_rec, event_list, label_list, sample, seg_time):
         start_time = twenty_four_hr_clock(time)
         start_epoch = cal_duration(start_rec, start_time) / seg_time
         end_epoch = cal_duration(start_rec, time_add(start_time, duration)) / seg_time
-
         if int(end_epoch) == int(start_epoch) and end_epoch <= total_epoch-1:
             label_list[int(end_epoch) + sample * total_epoch][event_dict[event]] += end_epoch - start_epoch
 
@@ -121,16 +120,24 @@ def threshold(start_rec, event_list, label_list, sample, threshold, seg_time):
 
 
 
-def multi_class_threshold(start_rec, event_list, label_list, sample, threshold):
+def multi_class_threshold(start_rec, event_list, label_list, sample, threshold, seg_time):
 
-    label_list = multi_class_proportion(start_rec, event_list, label_list, sample)
+    label_list = multi_class_proportion(start_rec, event_list, label_list, sample, seg_time)
 
     # x > threshold : x==1 ; x <= threshold : x == 0 
     return [[int(y > threshold) for y in x] for x in label_list]
 
 
+def count_binary_class(labels_list):
+    class_count = [0]*2
+    for x in labels_list:
+        class_count[x]+=1
+    
+    return class_count
 
-def count_class(labels_list):
+
+
+def count_multi_class(labels_list):
     class_count = [0]*len(labels_list[0])
     for x in labels_list:
         for num in range(len(x)):
@@ -141,26 +148,34 @@ def count_class(labels_list):
 
 
 
-def main(ids, start_list, csv_name, th, seg_time):
+def main(ids, start_list, csv_name, th, seg_time, type):
 
     assert len(ids) == len(start_list)
     # label_list = [0] * 39 * (300/seg_time) * (len(ids))
+
+    file_name = []
     label_list = []
     for x in range(11700//seg_time * len(ids)):
-        label_list.append(0)
-    file_name = []
+        if type == 'binary':
+            label_list.append(0)
+        elif type == 'multi':
+            label_list.append([0,0,0,0])
+    
 
 
     #iterate over each id
     for sample in range(len(ids)):
 
         start_rec = start_list[sample]
-        event_list = pd.read_csv(f'Event_lists/{ids[sample]}_event_list.csv')
+        event_list = pd.read_csv(f'./Event_lists/{ids[sample]}_event_list.csv')
         # label_list = threshold(start_rec, event_list, label_list, sample, threshold = 0.1)
 
 
         #iterate over each event and get label
-        label_list = threshold(start_rec, event_list, label_list, sample, threshold=th, seg_time = seg_time)
+        if type == 'binary':
+            label_list = threshold(start_rec, event_list, label_list, sample, threshold=th, seg_time = seg_time)
+        elif type == 'multi':
+            label_list = multi_class_threshold(start_rec, event_list, label_list, sample, threshold=th, seg_time = seg_time)
 
         #append file names for each id
         for x in range(30,69):
@@ -169,14 +184,17 @@ def main(ids, start_list, csv_name, th, seg_time):
 
 
     #get dataframe and export csv
-    label = {
-        "filename" : file_name,
-        "label" : label_list
-    }
-    print(len(label['filename']))
-    print(len(label['label']))
+    if type == 'binary':
+        df = pd.DataFrame({
+            "filename" : file_name,
+            "label" : label_list
+        })
 
-    df = pd.DataFrame(label)
+    elif type == 'multi':
+        df = pd.concat([pd.DataFrame({"filename": file_name}), 
+                        pd.DataFrame(label_list, columns=[0,1,2,3])],
+                        axis=1)
+        
     df.to_csv(csv_name)
     print(f'CSV File: [{csv_name}] done.')
 
@@ -184,14 +202,21 @@ def main(ids, start_list, csv_name, th, seg_time):
 
 
 if __name__ == "__main__":
+    
+    data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Github/Sleep_Apnea/CNN_LSTM/Model_Training/Data'
+    # data_folder = r'C:\Users\user\Documents\Benson\資訊\程式\Apnea_Data'
+    os.chdir(data_folder)
 
-    seg_time = 25
+    type = 'binary'
+    seg_time = 30
     th = 0.1
-    ids = ["00000711-100839", "00000781-100816", "00001096-100779", "00000782-100816"]
-    start_list = ["00:22:23", "23:57:21", "00:05:58", "23:56:56"]
-    csv_name = f'label_{seg_time}s_{str(int(100*th))}.csv'
+    ids = ["00000712-100839", "00001118-100779", "00000782-100816", "00000711-100839", "00000781-100816", "00001096-100779", "00001097-100779"]
+    start_list = ["23:54:50", "00:01:49", "23:56:56", "00:22:23", "23:57:21", "00:05:58", "00:28:05"]
+    csv_name = f'{data_folder}/label_{seg_time}s_{str(int(100*th))}_{type}.csv'
 
-    main(ids, start_list, csv_name, th, seg_time)
-    #print(count_class(pd.read_csv(csv_name)['label']))
+
+    main(ids, start_list, csv_name, th, seg_time, type)
+    #print(count_binary_class(pd.read_csv(csv_name)['label']))
+
 
 
