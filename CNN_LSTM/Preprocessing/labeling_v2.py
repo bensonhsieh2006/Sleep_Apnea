@@ -203,15 +203,15 @@ def main(ids, start_list, csv_name, th, seg_time, type):
 
 if __name__ == "__main__":
     
-    data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Code_with_Data/CNN_LSTM/Model_Training/Data'
+    data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Github/Sleep_Apnea/CNN_LSTM/Model_Training/Data'
     # data_folder = r'C:\Users\user\Documents\Benson\資訊\程式\Apnea_Data'
     os.chdir(data_folder)
 
     type = 'binary'
     seg_time = 30
     th = 0.1
-    ids = ["00000712-100839", "00001118-100779", "00000782-100816", "00000711-100839", "00000781-100816", "00001096-100779"]
-    start_list = ["23:54:50", "00:01:49", "23:56:56", "00:22:23", "23:57:21", "00:05:58"]
+    ids = ["00000712-100839", "00001118-100779", "00000782-100816", "00000711-100839", "00000781-100816", "00001096-100779", "00001097-100779"]
+    start_list = ["23:54:50", "00:01:49", "23:56:56", "00:22:23", "23:57:21", "00:05:58", "00:28:05"]
     csv_name = f'{data_folder}/label_{seg_time}s_{str(int(100*th))}_{type}.csv'
 
 
