@@ -55,7 +55,7 @@ def cal_duration(t1, t2):
 
 #calculate time proportion for each epoch of each event(mixed up)
 def proportion(start_rec, event_list, label_list, sample, seg_time):
-    print()
+    # print()
     total_epoch = 11700//seg_time
 
     for time, duration in zip(event_list['Time'], event_list['Duration']):
@@ -63,7 +63,7 @@ def proportion(start_rec, event_list, label_list, sample, seg_time):
         start_time = twenty_four_hr_clock(time)
         start_epoch = cal_duration(start_rec, start_time) / seg_time
         end_epoch = cal_duration(start_rec, time_add(start_time, duration)) / seg_time
-        print(start_epoch)
+        # print(start_epoch)
         if int(end_epoch) == int(start_epoch) and end_epoch <= total_epoch-1:
             label_list[int(end_epoch) + sample * total_epoch] += end_epoch - start_epoch
 
@@ -203,15 +203,15 @@ def main(ids, start_list, csv_name, th, seg_time, type):
 
 if __name__ == "__main__":
     
-    data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Code_with_Data/CNN_LSTM/Model_Training/Data'
+    data_folder = r'/NAS/Benson/Sleep_Apnea/Sleep_Codes/Github/Sleep_Apnea/CNN_LSTM/Model_Training/Data'
     # data_folder = r'C:\Users\user\Documents\Benson\資訊\程式\Apnea_Data'
     os.chdir(data_folder)
 
     type = 'binary'
     seg_time = 30
     th = 0.1
-    ids = ["00000711-100839", "00000781-100816", "00001096-100779", "00000712-100839", "00001118-100779", "00000782-100816"]
-    start_list = ["00:22:23", "23:57:21", "00:05:58", "23:54:50", "23:56:56", "00:01:49"]
+    ids = ["00000712-100839", "00001118-100779", "00000782-100816", "00000711-100839", "00000781-100816", "00001096-100779", "00001097-100779"]
+    start_list = ["23:54:50", "00:01:49", "23:56:56", "00:22:23", "23:57:21", "00:05:58", "00:28:05"]
     csv_name = f'{data_folder}/label_{seg_time}s_{str(int(100*th))}_{type}.csv'
 
 
