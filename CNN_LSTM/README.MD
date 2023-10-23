@@ -12,6 +12,8 @@ Convolutional Neural Network (CNN) is a type of Artificial Neural Network (ANN) 
 
 The research framework of this study is illustrated in below. Initially, the collected audio data undergoes a preprocessing stage, followed by a transformation into Mel-spectrograms. Subsequently, the CNN-LSTM model is utilized to sequentially process each sample in a time-series fashion, enabling continuous prediction and facilitating real-time monitoring.
 
+![image](https://github.com/bensonhsieh2006/Sleep_Apnea/assets/52516956/df539aa5-6222-4f1b-a7f2-880dada418b8)
+
 
 
 
