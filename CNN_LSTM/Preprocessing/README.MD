@@ -3,3 +3,5 @@ We transformed the audio segments from the previous step into Mel Spectrograms, 
 
 ![image](https://github.com/bensonhsieh2006/Sleep_Apnea/assets/52516956/edb2db46-6f56-4ceb-9730-269262053fc5)
 
+Based on the sleep apnea event table obtained from PSG examination of each subject, binary classification was conducted. The percentage of time in each 30-second time step occupied by sleep apnea events was calculated. In this experiment, a threshold value was used for annotation. Values above the threshold were labeled as 1, while those below it were labeled as 0. Six threshold values (0.05, 0.10, 0.15, 0.20, 0.25, 0.30) were tested. Among the 1560 audio segments analyzed in this study, 842 were labeled as 0 and 718 were labeled as 1, resulting in a ratio of approximately 6:5.
+
