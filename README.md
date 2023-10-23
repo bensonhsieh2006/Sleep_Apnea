@@ -9,7 +9,6 @@ This program introduces an intelligent mobile application that has been develope
 
 
 
-![image](https://github.com/bensonhsieh2006/Sleep_Apnea/assets/52516956/4b60c981-c8eb-4669-afa9-4fbc284b6a38)
 
 
 
