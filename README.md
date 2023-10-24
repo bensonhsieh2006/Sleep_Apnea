@@ -75,6 +75,12 @@ The learning curves in Figure 8 illustrate that the training and validation loss
 
 ![image](https://github.com/bensonhsieh2006/Sleep_Apnea/assets/52516956/18b82cd0-7899-46df-b299-5fad53344c48)
 
+(d)Testing Results: 
+The examination of the confusion matrix reveals that the model exhibits a significant level of precision in forecasting the majority of label values, with 9 occurrences of false negatives and 15 occurrences of false positives. The sensitivity and specificity values are reported as 0.87 and 0.81, respectively. Additionally, the ROC curve analysis yielded an area under the curve (AUC) value of 0.8925, as illustrated in below image.
+
+![image](https://github.com/bensonhsieh2006/Sleep_Apnea/assets/52516956/f8c44b24-6af2-402a-b64c-ff5e3af692cb)
+
+
 
 
 
